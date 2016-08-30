@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     SWRevealViewController *revealViewController = self.revealViewController;
     
     if ( revealViewController )
@@ -35,22 +35,38 @@
                                                                  zoom:6];
     _mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     _mapView.myLocationEnabled = YES;
+    _mapView.settings.myLocationButton = YES;
     self.view = _mapView;
     
-    NSLog(@"User's location: %@", _mapView.myLocation);
-
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
     
-    // Creates a marker in the center of the map.
-    /*
-    GMSMarker *marker = [[GMSMarker alloc] init];
-    marker.position = CLLocationCoordinate2DMake(-33.86, 151.20);
-    marker.title = @"Sydney";
-    marker.snippet = @"Australia";
-    marker.map = _mapView;*/
+
+    UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake((screenWidth/2) - 40, screenHeight - 100, 80, 80)];
+    [reportButton setImage:[UIImage imageNamed:@"report.png"] forState:UIControlStateNormal];
+    
+    [reportButton addTarget:self action:@selector(reportar) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [self.view addSubview:reportButton];
+    
     
     [self startStandardUpdates];
     
 
+}
+
+-(void)reportar{
+    [self performSegueWithIdentifier:@"Reportar" sender:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if([segue.destinationViewController isKindOfClass:[UIViewController class]]){
+        
+        
+    }
 }
 
 - (void)startStandardUpdates

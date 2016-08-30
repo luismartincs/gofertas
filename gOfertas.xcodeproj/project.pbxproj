@@ -42,6 +42,10 @@
 		A08750C81D74E6A700B1FA90 /* ObjectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = A08750C71D74E6A700B1FA90 /* ObjectResponse.m */; };
 		A08750CD1D74E76100B1FA90 /* WebServices.m in Sources */ = {isa = PBXBuildFile; fileRef = A08750CB1D74E76100B1FA90 /* WebServices.m */; };
 		A08750CF1D74E85F00B1FA90 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A08750CE1D74E85F00B1FA90 /* Podfile */; };
+		A08750D21D75388C00B1FA90 /* slide@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A08750D11D75388C00B1FA90 /* slide@2x.png */; };
+		A08750D41D75467800B1FA90 /* report.png in Resources */ = {isa = PBXBuildFile; fileRef = A08750D31D75467800B1FA90 /* report.png */; };
+		A08750D71D754E2B00B1FA90 /* OfertasCercanas.m in Sources */ = {isa = PBXBuildFile; fileRef = A08750D61D754E2B00B1FA90 /* OfertasCercanas.m */; };
+		A08750DA1D7551F000B1FA90 /* ReportarOferta.m in Sources */ = {isa = PBXBuildFile; fileRef = A08750D91D7551F000B1FA90 /* ReportarOferta.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +119,12 @@
 		A08750CB1D74E76100B1FA90 /* WebServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServices.m; sourceTree = "<group>"; };
 		A08750CC1D74E76100B1FA90 /* WebServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServices.h; sourceTree = "<group>"; };
 		A08750CE1D74E85F00B1FA90 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
+		A08750D11D75388C00B1FA90 /* slide@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide@2x.png"; sourceTree = "<group>"; };
+		A08750D31D75467800B1FA90 /* report.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report.png; sourceTree = "<group>"; };
+		A08750D51D754E2B00B1FA90 /* OfertasCercanas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfertasCercanas.h; sourceTree = "<group>"; };
+		A08750D61D754E2B00B1FA90 /* OfertasCercanas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfertasCercanas.m; sourceTree = "<group>"; };
+		A08750D81D7551F000B1FA90 /* ReportarOferta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportarOferta.h; sourceTree = "<group>"; };
+		A08750D91D7551F000B1FA90 /* ReportarOferta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportarOferta.m; sourceTree = "<group>"; };
 		A9225841B3B45C145CA5E34A /* Pods-gOfertas.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gOfertas.release.xcconfig"; path = "Pods/Target Support Files/Pods-gOfertas/Pods-gOfertas.release.xcconfig"; sourceTree = "<group>"; };
 		D0FEA93F18E85193307D0FAB /* libPods-gOfertas.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-gOfertas.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -160,6 +170,7 @@
 		A087504E1D741B5E00B1FA90 /* gOfertas */ = {
 			isa = PBXGroup;
 			children = (
+				A08750D01D75388C00B1FA90 /* resources */,
 				A08750CA1D74E73800B1FA90 /* WebServices */,
 				A08750C91D74E6C400B1FA90 /* Frameworks */,
 				A08750C51D74E66300B1FA90 /* Models */,
@@ -204,6 +215,10 @@
 			children = (
 				A08750551D741B5E00B1FA90 /* Home.h */,
 				A08750721D74E41200B1FA90 /* Home.m */,
+				A08750D51D754E2B00B1FA90 /* OfertasCercanas.h */,
+				A08750D61D754E2B00B1FA90 /* OfertasCercanas.m */,
+				A08750D81D7551F000B1FA90 /* ReportarOferta.h */,
+				A08750D91D7551F000B1FA90 /* ReportarOferta.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -344,6 +359,15 @@
 			name = WebServices;
 			sourceTree = "<group>";
 		};
+		A08750D01D75388C00B1FA90 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				A08750D31D75467800B1FA90 /* report.png */,
+				A08750D11D75388C00B1FA90 /* slide@2x.png */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 		DC93C090F39D67AC5D290654 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -423,6 +447,8 @@
 				A087505F1D741B5E00B1FA90 /* Assets.xcassets in Resources */,
 				A08750CF1D74E85F00B1FA90 /* Podfile in Resources */,
 				A087505A1D741B5E00B1FA90 /* Main.storyboard in Resources */,
+				A08750D21D75388C00B1FA90 /* slide@2x.png in Resources */,
+				A08750D41D75467800B1FA90 /* report.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +526,7 @@
 				A08750CD1D74E76100B1FA90 /* WebServices.m in Sources */,
 				A08750A81D74E5B600B1FA90 /* NSDictionary+ObjectMapper.m in Sources */,
 				A08750B81D74E5B600B1FA90 /* SBJsonStreamWriterState.m in Sources */,
+				A08750D71D754E2B00B1FA90 /* OfertasCercanas.m in Sources */,
 				A08750C31D74E62800B1FA90 /* Declarations.m in Sources */,
 				A08750AA1D74E5B600B1FA90 /* ManagedObjectInstanceProvider.m in Sources */,
 				A08750C21D74E62800B1FA90 /* OCMapperConfig.m in Sources */,
@@ -507,6 +534,7 @@
 				A08750B71D74E5B600B1FA90 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				A08750511D741B5E00B1FA90 /* main.m in Sources */,
 				A08750BB1D74E5B600B1FA90 /* SBJsonWriter.m in Sources */,
+				A08750DA1D7551F000B1FA90 /* ReportarOferta.m in Sources */,
 				A08750AF1D74E5B600B1FA90 /* ObjectMappingInfo.m in Sources */,
 				A08750B41D74E5B600B1FA90 /* SBJsonStreamParserAdapter.m in Sources */,
 				A08750C81D74E6A700B1FA90 /* ObjectResponse.m in Sources */,
