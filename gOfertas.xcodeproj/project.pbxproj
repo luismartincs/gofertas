@@ -46,6 +46,7 @@
 		A08750D41D75467800B1FA90 /* report.png in Resources */ = {isa = PBXBuildFile; fileRef = A08750D31D75467800B1FA90 /* report.png */; };
 		A08750D71D754E2B00B1FA90 /* OfertasCercanas.m in Sources */ = {isa = PBXBuildFile; fileRef = A08750D61D754E2B00B1FA90 /* OfertasCercanas.m */; };
 		A08750DA1D7551F000B1FA90 /* ReportarOferta.m in Sources */ = {isa = PBXBuildFile; fileRef = A08750D91D7551F000B1FA90 /* ReportarOferta.m */; };
+		A08750DD1D7567B500B1FA90 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = A08750DC1D7567B500B1FA90 /* Menu.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,6 +126,8 @@
 		A08750D61D754E2B00B1FA90 /* OfertasCercanas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfertasCercanas.m; sourceTree = "<group>"; };
 		A08750D81D7551F000B1FA90 /* ReportarOferta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportarOferta.h; sourceTree = "<group>"; };
 		A08750D91D7551F000B1FA90 /* ReportarOferta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportarOferta.m; sourceTree = "<group>"; };
+		A08750DB1D7567B500B1FA90 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
+		A08750DC1D7567B500B1FA90 /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menu.m; sourceTree = "<group>"; };
 		A9225841B3B45C145CA5E34A /* Pods-gOfertas.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gOfertas.release.xcconfig"; path = "Pods/Target Support Files/Pods-gOfertas/Pods-gOfertas.release.xcconfig"; sourceTree = "<group>"; };
 		D0FEA93F18E85193307D0FAB /* libPods-gOfertas.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-gOfertas.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -219,6 +222,8 @@
 				A08750D61D754E2B00B1FA90 /* OfertasCercanas.m */,
 				A08750D81D7551F000B1FA90 /* ReportarOferta.h */,
 				A08750D91D7551F000B1FA90 /* ReportarOferta.m */,
+				A08750DB1D7567B500B1FA90 /* Menu.h */,
+				A08750DC1D7567B500B1FA90 /* Menu.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -533,6 +538,7 @@
 				A08750AD1D74E5B600B1FA90 /* InCodeMappingProvider.m in Sources */,
 				A08750B71D74E5B600B1FA90 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				A08750511D741B5E00B1FA90 /* main.m in Sources */,
+				A08750DD1D7567B500B1FA90 /* Menu.m in Sources */,
 				A08750BB1D74E5B600B1FA90 /* SBJsonWriter.m in Sources */,
 				A08750DA1D7551F000B1FA90 /* ReportarOferta.m in Sources */,
 				A08750AF1D74E5B600B1FA90 /* ObjectMappingInfo.m in Sources */,

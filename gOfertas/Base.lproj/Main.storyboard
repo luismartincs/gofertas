@@ -23,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="130.66666666666666" y="305.30000000000001"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Menu-->
         <scene sceneID="0of-A2-Jp3">
             <objects>
-                <tableViewController id="150-Wf-Yn3" sceneMemberID="viewController">
+                <tableViewController id="150-Wf-Yn3" customClass="Menu" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jcX-Gk-yXc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -129,9 +129,32 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="G0m-HE-IKi">
+                                <rect key="frame" x="20" y="93" width="172" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wx8-57-y9A">
+                                <rect key="frame" x="20" y="251" width="44" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Tomar"/>
+                                <connections>
+                                    <action selector="foto:" destination="Xdi-AJ-fwU" eventType="touchUpInside" id="zaZ-yA-0Lz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="17B-Ip-8GX">
+                                <rect key="frame" x="86" y="251" width="80" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Seleccionar"/>
+                                <connections>
+                                    <action selector="seleccionar:" destination="Xdi-AJ-fwU" eventType="touchUpInside" id="gsd-7x-aMV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="imageOferta" destination="G0m-HE-IKi" id="WvJ-r3-7DF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qG2-yd-Bha" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

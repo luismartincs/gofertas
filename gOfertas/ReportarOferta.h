@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ReportarOferta : UIViewController
+@interface ReportarOferta : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+
+@property (strong, nonatomic) IBOutlet UIImageView *imageOferta;
+
+
 - (IBAction)cancelar:(id)sender;
+- (IBAction)foto:(id)sender;
+- (IBAction)seleccionar:(id)sender;
 
 @end
