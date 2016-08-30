@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GoogleMaps/GoogleMaps.h>
 
-@interface Home : UIViewController
+@import GoogleMaps;
+
+@interface Home : UIViewController<GMSMapViewDelegate,CLLocationManagerDelegate>
+
+@property(nonatomic,strong) GMSMapView *mapView;
+@property(nonatomic,strong) CLLocationManager *locationManager;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 
 @end
