@@ -14,9 +14,9 @@
 #import "ObjectResponse.h"
 #import "Parser.h"
 
-//Debug
 #define nDebugEnable        1
 #define print(x)            if(nDebugEnable){(x);}
+
 
 extern NSDictionary         *mjsonGeo;
 

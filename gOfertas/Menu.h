@@ -10,4 +10,7 @@
 
 @interface Menu : UITableViewController
 
+@property(nonatomic,strong) NSArray *opciones;
+@property(nonatomic,strong) NSArray *images;
+
 @end
