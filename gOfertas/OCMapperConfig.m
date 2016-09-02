@@ -7,19 +7,29 @@
 //
 
 #import "Declarations.h"
-#import "OCMapperConfig.h"
 #import "OCMapper.h"
+#import "OCMapperConfig.h"
 
 @implementation OCMapperConfig
 
 +(void)configure{
     
     InCodeMappingProvider *inCodeMappingProvider = [[InCodeMappingProvider alloc] init];
-    CommonLoggingProvider *commonLoggingProvider = [[CommonLoggingProvider alloc] initWithLogLevel:LogLevelError];
+    CommonLoggingProvider *commonLoggingProvider = [[CommonLoggingProvider alloc] initWithLogLevel:LogLevelInfo];
     
     [[ObjectMapper sharedInstance] setMappingProvider:inCodeMappingProvider];
     [[ObjectMapper sharedInstance] setLoggingProvider:commonLoggingProvider];
+ 
+    [inCodeMappingProvider mapFromDictionaryKey:@"ofertas"
+                                  toPropertyKey:@"ofertas"
+                                 withObjectType:[ObjectOferta class]
+                                       forClass:[ObjectResponse class]];
     
+    [inCodeMappingProvider mapFromDictionaryKey:@"lugares"
+                                  toPropertyKey:@"lugares"
+                                 withObjectType:[ObjectLugar class]
+                                       forClass:[ObjectResponse class]];
+
 }
 
 @end

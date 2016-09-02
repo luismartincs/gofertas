@@ -8,16 +8,112 @@
 
 #import "OfertasCercanas.h"
 #import "cellOferta.h"
+#import "IconDownloader.h"
 
 @implementation OfertasCercanas
 
+#pragma mark - Web Services
+
+-(void)viewDidLoad{
+    [super viewDidLoad];
+    
+    _ofertas = [[NSArray alloc] init];
+    _imageDownloadsInProgress = [NSMutableDictionary dictionary];
+
+}
+
+// -------------------------------------------------------------------------------
+//	terminateAllDownloads
+// -------------------------------------------------------------------------------
+- (void)terminateAllDownloads
+{
+    // terminate all pending download connections
+    NSArray *allDownloads = [self.imageDownloadsInProgress allValues];
+    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
+    
+    [self.imageDownloadsInProgress removeAllObjects];
+}
+
+// -------------------------------------------------------------------------------
+//	dealloc
+//  If this view controller is going away, we need to cancel all outstanding downloads.
+// -------------------------------------------------------------------------------
+- (void)dealloc
+{
+    // terminate all pending download connections
+    [self terminateAllDownloads];
+}
+
+// -------------------------------------------------------------------------------
+//	didReceiveMemoryWarning
+// -------------------------------------------------------------------------------
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    
+    // terminate all pending download connections
+    [self terminateAllDownloads];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self queueLoadData];
+
+     _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [_spinner startAnimating];
+    _spinner.frame = CGRectMake(0, 20, 320, 44);
+    [self.tableView addSubview:_spinner];
+    
+}
+
+-(void)queueLoadData{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //[_indicator startAnimating];
+    
+    NSOperationQueue *queue = [NSOperationQueue new];
+    
+    NSInvocationOperation *opGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(loadData) object:nil];
+    
+    [queue addOperation:opGet];
+    
+    NSInvocationOperation *opDidGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(didLoadData) object:nil];
+    
+    [opDidGet addDependency:opGet];
+    
+    [queue addOperation:opDidGet];
+    
+    
+}
+
+-(void)loadData{
+    mjsonGeo = [WebServices getOfertasCercanasWithLatitude:_latitude AndLongitude:_longitude];
+}
+
+-(void)didLoadData{
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
+        [_spinner removeFromSuperview];
+
+        ObjectResponse *object  = [Parser parseGeoObject];
+        
+        _ofertas = object.ofertas;
+        
+        [self.tableView reloadData];
+        
+    });
+}
+
+#pragma mark - TableView
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return [_ofertas count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -59,10 +155,103 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"cellOferta"];
     }
     
-    //cell.textLabel.text=@"Pos wow";
+    ObjectOferta *oferta = _ofertas[indexPath.row];
+    
+    cell.titulo.text = oferta.titulo;
+    
+    [cell setCalificacion:oferta.calificacion];
+    
+    if(!oferta.imageSource){
+        if (self.tableView.dragging == NO && self.tableView.decelerating == NO)
+        {
+            [self startIconDownload:oferta forIndexPath:indexPath];
+        }
+        // if a download is deferred or in progress, return a placeholder image
+        cell.picture.image = [UIImage imageNamed:@"camera.png"];
+        
+    }else{
+        cell.picture.image = oferta.imageSource;
+    }
     
     return cell;
     
 }
+
+
+#pragma mark - Table cell image support
+
+// -------------------------------------------------------------------------------
+//	startIconDownload:forIndexPath:
+// -------------------------------------------------------------------------------
+- (void)startIconDownload:(ObjectOferta *)appRecord forIndexPath:(NSIndexPath *)indexPath
+{
+    IconDownloader *iconDownloader = (self.imageDownloadsInProgress)[indexPath];
+    if (iconDownloader == nil)
+    {
+        iconDownloader = [[IconDownloader alloc] init];
+        iconDownloader.appRecord = appRecord;
+        [iconDownloader setCompletionHandler:^{
+            
+            cellOferta *cell = (cellOferta*)[self.tableView cellForRowAtIndexPath:indexPath];
+            
+            // Display the newly loaded image
+            cell.picture.image = appRecord.imageSource;
+            
+            // Remove the IconDownloader from the in progress list.
+            // This will result in it being deallocated.
+            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
+            
+        }];
+        (self.imageDownloadsInProgress)[indexPath] = iconDownloader;
+        [iconDownloader startDownload];
+    }
+}
+
+// -------------------------------------------------------------------------------
+//	loadImagesForOnscreenRows
+//  This method is used in case the user scrolled into a set of cells that don't
+//  have their app icons yet.
+// -------------------------------------------------------------------------------
+- (void)loadImagesForOnscreenRows
+{
+    if (self.ofertas.count > 0)
+    {
+        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
+        for (NSIndexPath *indexPath in visiblePaths)
+        {
+            ObjectOferta *appRecord = _ofertas[indexPath.row];
+            
+            if (!appRecord.imageSource)
+                // Avoid the app icon download if the app already has an icon
+            {
+                [self startIconDownload:appRecord forIndexPath:indexPath];
+            }
+        }
+    }
+}
+
+#pragma mark - UIScrollViewDelegate
+
+// -------------------------------------------------------------------------------
+//	scrollViewDidEndDragging:willDecelerate:
+//  Load images for all onscreen rows when scrolling is finished.
+// -------------------------------------------------------------------------------
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate)
+    {
+        [self loadImagesForOnscreenRows];
+    }
+}
+
+// -------------------------------------------------------------------------------
+//	scrollViewDidEndDecelerating:scrollView
+//  When scrolling stops, proceed to load the app icons that are on screen.
+// -------------------------------------------------------------------------------
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self loadImagesForOnscreenRows];
+}
+
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "ReportarOferta.h"
+#import "AgregarLugar.h"
 
 @implementation ReportarOferta
 
@@ -16,8 +17,33 @@
     [self config];
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self queueLoadData];
+}
+
 -(void)config{
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+
+    /*
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    */
     _categorias = [NSArray arrayWithObjects: @"Abarrotes y alimentos",@"Autos",@"Bebés y Niños",@"Celulares",@"Restaurantes",@"Computadoras",@"Deportes y Ejercicio",@"Entretenimiento",@"Hogar y Jardín",@"Ropa y accesorios",@"Salud y Belleza",@"Servicios",@"Tecnología",@"Televisiones",@"Viajes",@"Videojuegos",nil];
     
     _calificaciones = [NSArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5", nil];
@@ -27,6 +53,56 @@
     
     [self refreshCalificaciones];
 }
+
+-(void)dismissKeyboard {
+    [self.view endEditing:YES];
+}
+
+#pragma mark - Web Services
+
+
+-(void)queueLoadData{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //[_indicator startAnimating];
+    
+    NSOperationQueue *queue = [NSOperationQueue new];
+    
+    NSInvocationOperation *opGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(loadData) object:nil];
+    
+    [queue addOperation:opGet];
+    
+    NSInvocationOperation *opDidGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(didLoadData) object:nil];
+    
+    [opDidGet addDependency:opGet];
+    
+    [queue addOperation:opDidGet];
+    
+    
+}
+
+-(void)loadData{
+    mjsonGeo = [WebServices getLugaresCercanosWithLatitude:_latitude AndLongitude:_longitude];
+}
+
+-(void)didLoadData{
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        ObjectResponse *object  = [Parser parseGeoObject];
+        
+        _lugares = object.lugares;
+        
+        for (ObjectLugar *lugar in object.lugares) {
+            print(NSLog(@"%i %@",lugar.id_lugar,lugar.nombre))
+        }
+        
+        
+    });
+}
+
 
 -(void)refreshCalificaciones{
     
@@ -100,6 +176,36 @@
     [_calificacionPicker showInView:self.navigationController.view];
 }
 
+- (IBAction)lugar:(id)sender {
+    
+    [self.view endEditing:YES];
+    
+    _lugaresPicker = [[StringPickerList alloc] initWithDelegate:self andTarget:@selector(lugarAccept)];
+    
+    [_lugaresPicker showInView:self.navigationController.view];
+}
+
+- (IBAction)reportar:(id)sender {
+    
+    NSInteger lugId = ((ObjectLugar*)_lugares[_lugar]).id_lugar;
+    NSInteger uid = 1;
+    
+    print(NSLog(@"%@",_ofertaTxt.text))
+    print(NSLog(@"%@",_descripcionTxt.text))
+    print(NSLog(@"%@",_precioTxt.text))
+    print(NSLog(@"%i",_calificacion))
+    print(NSLog(@"%i",_categoriaId))
+    print(NSLog(@"%f",[_latitude doubleValue]))
+    print(NSLog(@"%f",[_longitude doubleValue]))
+    print(NSLog(@"%i",!_nacionalChoose.selectedSegmentIndex))
+    print(NSLog(@"%i",lugId))
+    print(NSLog(@"%i",uid))
+
+
+    
+
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
@@ -117,7 +223,7 @@
 
 -(void)accept{
     _selectedCatId = _categoriaId;
-    _categoriaButton.titleLabel.text = _categorias[_selectedCatId];
+    _categoriaLabel.text = _categorias[_selectedCatId];
     [_categoriasPicker close];
 }
 
@@ -127,6 +233,12 @@
     [_calificacionPicker close];
 }
 
+-(void)lugarAccept{
+    _lugar = _lugarId;
+    _lugarLabel.text = ((ObjectLugar*)_lugares[_lugar]).nombre;
+    [_lugaresPicker close];
+}
+
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     
@@ -134,10 +246,13 @@
         _categoriaId = row;
     }else if(pickerView == _calificacionPicker.pickerView){
         _calificacionId = row;
+    }else if(pickerView == _lugaresPicker.pickerView){
+        _lugarId = row;
     }
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
     if(pickerView == _categoriasPicker.pickerView){
         
         return [_categorias count];
@@ -145,6 +260,8 @@
     }else if(pickerView == _calificacionPicker.pickerView){
         return [_calificaciones count];
         
+    }else if(pickerView == _lugaresPicker.pickerView){
+        return [_lugares count];
     }else{
         return 1;
     }
@@ -165,6 +282,8 @@
     }else if(pickerView == _calificacionPicker.pickerView){
         return _calificaciones[row];
 
+    }else if(pickerView == _lugaresPicker.pickerView){
+        return ((ObjectLugar*)_lugares[row]).nombre;
     }else{
         return @"";
     }
@@ -177,5 +296,60 @@
     
     return sectionWidth;
 }
+
+-(void) textFieldDidBeginEditing:(UITextField *)textField {
+    
+    UITableViewCell *cell = (UITableViewCell *)[textField.superview superview];
+    
+    _indexPath = [self.tableView indexPathForCell:cell];
+
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    UITableViewCell *cell = (UITableViewCell *)[textView.superview superview];
+    
+    _indexPath = [self.tableView indexPathForCell:cell];
+    print(NSLog(@"textf %i",_indexPath.row))
+
+}
+
+#pragma mark - Keyboard Events
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    print(NSLog(@"willshow %i",_indexPath.row))
+
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
+    
+    self.tableView.contentInset = contentInsets;
+    self.tableView.scrollIndicatorInsets = contentInsets;
+    
+    [self.tableView scrollToRowAtIndexPath:_indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    self.tableView.contentInset = UIEdgeInsetsZero;
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsZero;
+    print(NSLog(@"close %i",_indexPath.row))
+
+}
+
+#pragma mark -segue
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if([segue.destinationViewController isKindOfClass:[AgregarLugar class]]){
+        
+        AgregarLugar *destination = [segue destinationViewController];
+        
+        destination.latitude = _latitude;
+        destination.longitude = _longitude;
+        
+    }
+}
+
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "cellOferta.h"
+#import "Declarations.h"
 
 @implementation cellOferta
 
@@ -18,8 +19,7 @@
     self.layer.shadowRadius = 5;
     self.layer.shadowOpacity = 0.5;
 
-    
-    _calificacion = 3;
+    _stars = [[NSMutableArray alloc] init];
     
     UIImage *star = [UIImage imageNamed:@"star.png"];
     UIImage *starg = [UIImage imageNamed:@"starg.png"];
@@ -37,10 +37,43 @@
         
         starv.frame = CGRectMake(115+(20*i),87, 20, 20);
         
+        [_stars addObject:starv];
+        
         [_content addSubview:starv];
         
     }
     
+    
+}
+
+-(void)setCalificacion:(NSInteger)calificacion{
+    
+    _calificacion = calificacion;
+    
+    print(NSLog(@"Calificacion %i",calificacion))
+    
+    UIImage *star = [UIImage imageNamed:@"star.png"];
+    UIImage *starg = [UIImage imageNamed:@"starg.png"];
+    
+    for (int i=0; i < 5; i++) {
+        
+        UIImageView *starv = _stars[i];
+        
+        
+        if(i < calificacion){
+            starv.image = star;
+        }else{
+            starv.image = starg;
+        }
+        
+        //starv.frame = CGRectMake(115+(20*i),87, 20, 20);
+        
+        //[_stars addObject:starv];
+        
+        //[_content addSubview:starv];
+        
+    }
+
     
 }
 

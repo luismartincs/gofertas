@@ -8,6 +8,7 @@
 
 #import "Home.h"
 #import "SWRevealViewController.h"
+#import "ReportarOferta.h"
 
 @import GoogleMaps;
 
@@ -57,14 +58,94 @@
 
 }
 
+#pragma mark - Web Services
+
+
+-(void)queueLoadData{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //[_indicator startAnimating];
+    
+    NSOperationQueue *queue = [NSOperationQueue new];
+    
+    NSInvocationOperation *opGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(loadData) object:nil];
+    
+    [queue addOperation:opGet];
+    
+    NSInvocationOperation *opDidGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(didLoadData) object:nil];
+    
+    [opDidGet addDependency:opGet];
+    
+    [queue addOperation:opDidGet];
+    
+    
+}
+
+-(void)loadData{
+    mjsonGeo = [WebServices getOfertasCercanasWithLatitude:_latitude AndLongitude:_longitude];
+}
+
+-(void)didLoadData{
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        ObjectResponse *object  = [Parser parseGeoObject];
+        
+        [_mapView clear];
+        
+        UIImage *imgLow = [UIImage imageNamed:@"markl.png"];
+        UIImage *imgMid = [UIImage imageNamed:@"markm.png"];
+        UIImage *imgHigh = [UIImage imageNamed:@"markh.png"];
+
+        
+        for (ObjectOferta *ob in object.ofertas) {
+                        
+            CLLocationCoordinate2D position = CLLocationCoordinate2DMake(ob.latitud, ob.longitud);
+            GMSMarker *marker = [GMSMarker markerWithPosition:position];
+            marker.title = ob.titulo;
+            
+            if(ob.calificacion >= 4){
+                marker.icon = imgHigh;
+            }else if(ob.calificacion <= 2){
+                marker.icon = imgLow;
+            }else{
+                marker.icon = imgMid;
+            }
+            
+            marker.map = _mapView;
+        }
+        
+        
+    });
+}
+
+
+
+
+#pragma mark - Segues
+
 -(void)reportar{
     [self performSegueWithIdentifier:@"Reportar" sender:self];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-    if([segue.destinationViewController isKindOfClass:[UIViewController class]]){
+
+    if([segue.destinationViewController isKindOfClass:[OfertasCercanas class]]){
         
+        OfertasCercanas *destination = [segue destinationViewController];
+        
+        destination.latitude = _latitude;
+        destination.longitude = _longitude;
+        
+    }else if([segue.destinationViewController isKindOfClass:[UINavigationController class]]){
+        
+
+        UINavigationController *nav = (UINavigationController*)[segue destinationViewController];
+        ReportarOferta *destination =  (ReportarOferta*)nav.childViewControllers.lastObject;
+        destination.latitude = _latitude;
+        destination.longitude = _longitude;
         
     }
 }
@@ -84,7 +165,7 @@
     
     if([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedAlways){
         [_locationManager requestAlwaysAuthorization];
-        NSLog(@"Request auth");
+       print( NSLog(@"Request auth"));
     }
     
     [_locationManager startUpdatingLocation];
@@ -106,41 +187,24 @@
     CLLocation* location = [locations lastObject];
     NSDate* eventDate = location.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    
     if (abs(howRecent) < 15.0) {
-        // If the event is recent, do something with it.
-        NSLog(@"latitude %+.6f, longitude %+.6f\n",
-              location.coordinate.latitude,
-              location.coordinate.longitude);
+
+        _latitude = [NSString stringWithFormat:@"%+.6f",location.coordinate.latitude];
+
+        _longitude = [NSString stringWithFormat:@"%+.6f",location.coordinate.longitude];
+
+        print(NSLog(@"latitude %@, longitude %@",_latitude,_longitude));
         
         GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:location.coordinate.latitude
                                                                 longitude:location.coordinate.longitude
-                                                                     zoom:16];
+                                                                    zoom:16];
         _mapView.camera = camera;
+        
+        [self queueLoadData];
+        
     }
 }
-/*
-- (void)requestWhenInUseAuthorization
-{
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    
-    // If the status is denied or only granted for when in use, display an alert
-    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusDenied) {
-        NSString *title;
-        title = (status == kCLAuthorizationStatusDenied) ? @"Location services are off" : @"Background location is not enabled";
-        NSString *message = @"To use background location you must turn on 'Always' in the Location Services Settings";
-        
-        UIAlertView *alertViews = [[UIAlertView alloc] initWithTitle:title
-                                                             message:message
-                                                            delegate:self
-                                                   cancelButtonTitle:@"Cancel"
-                                                   otherButtonTitles:@"Settings", nil];
-        [alertViews show];
-    }
-    // The user has not enabled any location services. Request background authorization.
-    else if (status == kCLAuthorizationStatusNotDetermined) {
-        [_locationManager requestWhenInUseAuthorization];
-    }
-}*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

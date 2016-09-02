@@ -47,7 +47,10 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="content" destination="oUC-e0-9gq" id="Rdd-8c-6Fc"/>
+                <outlet property="lugar" destination="JzM-1C-PWa" id="SvZ-Ex-1J6"/>
                 <outlet property="picture" destination="9sU-wc-h6a" id="7ib-w0-jGS"/>
+                <outlet property="precio" destination="S3z-IL-eo2" id="iH0-9L-6oX"/>
+                <outlet property="titulo" destination="HIH-Cj-OOx" id="542-yq-NgD"/>
             </connections>
         </tableViewCell>
     </objects>

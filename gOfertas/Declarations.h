@@ -11,6 +11,9 @@
 
 #import "SBJson.h"
 #import "ObjectMapper.h"
+
+#import "ObjectLugar.h"
+#import "ObjectOferta.h"
 #import "ObjectResponse.h"
 #import "Parser.h"
 

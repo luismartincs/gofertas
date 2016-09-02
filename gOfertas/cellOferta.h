@@ -12,7 +12,13 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *picture;
 @property (strong, nonatomic) IBOutlet UIView *content;
+@property (strong, nonatomic) IBOutlet UILabel *titulo;
+@property (strong, nonatomic) IBOutlet UILabel *precio;
+@property (strong, nonatomic) IBOutlet UILabel *lugar;
 
 @property(nonatomic) NSInteger calificacion;
+@property(nonatomic,strong) NSMutableArray *stars;
+
+-(void)setCalificacion:(NSInteger)calificacion;
 
 @end

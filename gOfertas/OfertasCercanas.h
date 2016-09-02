@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebServices.h"
+#import "Declarations.h"
 
-@interface OfertasCercanas : UITableViewController
+@interface OfertasCercanas : UITableViewController<UIScrollViewDelegate>
+
+@property (nonatomic, strong) NSMutableDictionary *imageDownloadsInProgress;
+
+@property (nonatomic,strong) UIActivityIndicatorView *spinner;
+@property (nonatomic,strong) NSArray *ofertas;
+@property (nonatomic,strong) NSString *latitude;
+@property (nonatomic,strong) NSString *longitude;
 
 @end

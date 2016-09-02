@@ -11,6 +11,9 @@
 @interface WebServices : NSObject
 
 + (NSDictionary *)getWeatherWithLatitude:(NSString *)latitude AndLongitude:(NSString*)longitude;
++ (NSDictionary *)getOfertasCercanasWithLatitude:(NSString*)latitude AndLongitude:(NSString*)longitude;
++ (NSDictionary *)getLugaresCercanosWithLatitude:(NSString*)latitude AndLongitude:(NSString*)longitude;
+
 + (NSDictionary*) sendPost:(NSString*)postUrl forData:(NSString *)data andMode:(BOOL)mode;
 
 @end

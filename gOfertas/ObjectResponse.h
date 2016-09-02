@@ -10,4 +10,7 @@
 
 @interface ObjectResponse : NSObject
 
+@property (nonatomic, strong) NSArray *ofertas;
+@property (nonatomic, strong) NSArray *lugares;
+
 @end
