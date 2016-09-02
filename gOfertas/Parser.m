@@ -18,4 +18,13 @@
     }
     return nil;
 }
+
++ (ObjectOferta *)parseOferta{
+    if(mjsonGeo != nil) {
+        ObjectOferta *customizedObject = [[ObjectMapper sharedInstance] objectFromSource:mjsonGeo toInstanceOfClass:[ObjectOferta class]];
+        return customizedObject;
+    }
+    return nil;
+}
+
 @end

@@ -10,7 +10,10 @@
 
 @interface ObjectResponse : NSObject
 
-@property (nonatomic, strong) NSArray *ofertas;
-@property (nonatomic, strong) NSArray *lugares;
+@property (nonatomic, strong) NSArray *offers;
+@property (nonatomic, strong) NSArray *stores;
+
+@property (nonatomic,strong) NSString *state;
+@property (nonatomic,strong) NSString *message;
 
 @end

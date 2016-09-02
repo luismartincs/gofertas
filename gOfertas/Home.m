@@ -9,6 +9,7 @@
 #import "Home.h"
 #import "SWRevealViewController.h"
 #import "ReportarOferta.h"
+#import "DetalleOferta.h"
 
 @import GoogleMaps;
 
@@ -37,6 +38,7 @@
     _mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     _mapView.myLocationEnabled = YES;
     _mapView.settings.myLocationButton = YES;
+    _mapView.delegate = self;
     self.view = _mapView;
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -44,13 +46,32 @@
     CGFloat screenHeight = screenRect.size.height;
     
 
-    UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake((screenWidth/2) - 40, screenHeight - 100, 80, 80)];
+    UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake((screenWidth/2) - 35, screenHeight - 100, 70, 70)];
     [reportButton setImage:[UIImage imageNamed:@"report.png"] forState:UIControlStateNormal];
     
     [reportButton addTarget:self action:@selector(reportar) forControlEvents:UIControlEventTouchUpInside];
     
+    _markersOffers = [[NSMutableDictionary alloc] init];
+    
     
     [self.view addSubview:reportButton];
+    
+    
+    UILabel *radioLabel = [[UILabel alloc] init];
+    radioLabel.frame = CGRectMake(30, screenHeight - 80, 320, 40);
+    
+    NSInteger radio = [[NSUserDefaults standardUserDefaults] integerForKey:@"radio"];
+    
+    if(radio >= 1000){
+        radioLabel.text =[NSString stringWithFormat:@"%iKm",radio/1000];
+    }else{
+        radioLabel.text =[NSString stringWithFormat:@"%im",radio];
+        
+    }
+    
+    radioLabel.textColor = [UIColor darkGrayColor];
+    
+    [self.view addSubview:radioLabel];
     
     
     [self startStandardUpdates];
@@ -60,6 +81,18 @@
 
 #pragma mark - Web Services
 
+
+-(void)mapView:(GMSMapView *)mapView didTapInfoWindowOfMarker:(GMSMarker *)marker{
+    
+    UIStoryboard *story = [self storyboard];
+    DetalleOferta *destination = [story instantiateViewControllerWithIdentifier:@"DetalleOferta"];
+    
+    destination.ofertaid = [[_markersOffers allKeysForObject:marker][0] integerValue];
+    
+    print(NSLog(@"%i",[[_markersOffers allKeysForObject:marker][0] integerValue]))
+    
+    [self.navigationController pushViewController:destination animated:YES];
+}
 
 -(void)queueLoadData{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -94,17 +127,23 @@
         ObjectResponse *object  = [Parser parseGeoObject];
         
         [_mapView clear];
+        [_markersOffers removeAllObjects];
         
         UIImage *imgLow = [UIImage imageNamed:@"markl.png"];
         UIImage *imgMid = [UIImage imageNamed:@"markm.png"];
         UIImage *imgHigh = [UIImage imageNamed:@"markh.png"];
 
         
-        for (ObjectOferta *ob in object.ofertas) {
-                        
+        for (ObjectOferta *ob in object.offers) {
+            
+            
+            
             CLLocationCoordinate2D position = CLLocationCoordinate2DMake(ob.latitud, ob.longitud);
             GMSMarker *marker = [GMSMarker markerWithPosition:position];
             marker.title = ob.titulo;
+            
+            [_markersOffers setObject:marker forKey:[NSString stringWithFormat:@"%i",ob.ofertaid]];
+
             
             if(ob.calificacion >= 4){
                 marker.icon = imgHigh;
@@ -190,9 +229,9 @@
     
     if (abs(howRecent) < 15.0) {
 
-        _latitude = [NSString stringWithFormat:@"%+.6f",location.coordinate.latitude];
+        _latitude = [NSString stringWithFormat:@"%.6f",location.coordinate.latitude];
 
-        _longitude = [NSString stringWithFormat:@"%+.6f",location.coordinate.longitude];
+        _longitude = [NSString stringWithFormat:@"%.6f",location.coordinate.longitude];
 
         print(NSLog(@"latitude %@, longitude %@",_latitude,_longitude));
         

@@ -7,13 +7,17 @@
 //
 
 #import "Menu.h"
+#import "Cuenta.h"
+#import "Home.h"
+#import "Configuracion.h"
+#import "SWRevealViewController.h"
 
 @implementation Menu
 
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    _opciones = [NSArray arrayWithObjects:@"",@"Inicio",@"Cuenta",@"Configuración",@"Puntuar",@"Acerca De", nil];
+    _opciones = [NSArray arrayWithObjects:@"",@"Inicio",@"Cuenta",@"Configuración",@"Acerca De", nil];
     
     _images = [NSArray arrayWithObjects:@"",@"home.png",@"user.png",@"gears.png",@"thumb.png",@"acerca.png", nil];
     
@@ -55,6 +59,54 @@
     }
 
     return cell;
+    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"%@",
+          [self.revealViewController.frontViewController class]);
+        
+    if(indexPath.row == 1){
+    
+        Home *c = [self.storyboard instantiateViewControllerWithIdentifier:@"Home"];
+
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:c];
+    
+        nav.navigationBar.barTintColor = [UIColor colorWithRed:1.0 green:149.0/255.0 blue:0 alpha:1];
+        
+        nav.navigationBar.tintColor = [UIColor whiteColor];
+        
+        nav.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        
+        [self.revealViewController pushFrontViewController:nav animated:YES];
+    
+    }else if(indexPath.row == 2){
+        
+        Cuenta *c = [self.storyboard instantiateViewControllerWithIdentifier:@"Cuenta"];
+        
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:c];
+    
+        nav.navigationBar.barTintColor = [UIColor colorWithRed:1.0 green:149.0/255.0 blue:0 alpha:1];
+        
+        nav.navigationBar.tintColor = [UIColor whiteColor];
+        
+        nav.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        
+        [self.revealViewController pushFrontViewController:nav animated:YES];
+    }else if(indexPath.row == 3){
+        
+        Configuracion *c = [self.storyboard instantiateViewControllerWithIdentifier:@"Configuracion"];
+        
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:c];
+        
+        nav.navigationBar.barTintColor = [UIColor colorWithRed:1.0 green:149.0/255.0 blue:0 alpha:1];
+
+        nav.navigationBar.tintColor = [UIColor whiteColor];
+        
+        nav.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        
+        [self.revealViewController pushFrontViewController:nav animated:YES];
+    }
     
 }
 

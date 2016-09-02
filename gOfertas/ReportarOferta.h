@@ -10,6 +10,7 @@
 #import "StringPickerList.h"
 #import "WebServices.h"
 #import "Declarations.h"
+#import "LoadingView.h"
 
 @interface ReportarOferta : UITableViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPickerViewDataSource, UIPickerViewDelegate,UITextFieldDelegate,UITextViewDelegate>
 
@@ -33,6 +34,8 @@
 @property (strong, nonatomic) StringPickerList *calificacionPicker;
 @property (strong, nonatomic) StringPickerList *lugaresPicker;
 
+@property (strong,nonatomic) LoadingView *loadingView;
+
 @property (nonatomic) NSInteger categoriaId;
 @property (nonatomic) NSInteger selectedCatId;
 @property (nonatomic) NSInteger calificacionId;
@@ -46,6 +49,8 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl *nacionalChoose;
 @property (strong, nonatomic) IBOutlet UITextField *urlTxt;
 @property (strong, nonatomic) IBOutlet UITextView *descripcionTxt;
+
+@property (strong,nonatomic) ObjectOferta *ofertaObject;
 
 - (IBAction)cancelar:(id)sender;
 - (IBAction)foto:(id)sender;

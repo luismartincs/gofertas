@@ -9,6 +9,7 @@
 #import "OfertasCercanas.h"
 #import "cellOferta.h"
 #import "IconDownloader.h"
+#import "DetalleOferta.h"
 
 @implementation OfertasCercanas
 
@@ -19,6 +20,7 @@
     
     _ofertas = [[NSArray alloc] init];
     _imageDownloadsInProgress = [NSMutableDictionary dictionary];
+    _hasLoaded = NO;
 
 }
 
@@ -57,12 +59,16 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self queueLoadData];
+    
+    if(!_hasLoaded){
+    
+        [self queueLoadData];
 
-     _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [_spinner startAnimating];
-    _spinner.frame = CGRectMake(0, 20, 320, 44);
-    [self.tableView addSubview:_spinner];
+        _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [_spinner startAnimating];
+        _spinner.frame = CGRectMake(0, 20, 320, 44);
+        [self.tableView addSubview:_spinner];
+    }
     
 }
 
@@ -99,8 +105,8 @@
 
         ObjectResponse *object  = [Parser parseGeoObject];
         
-        _ofertas = object.ofertas;
-        
+        _ofertas = object.offers;
+        _hasLoaded = YES;
         [self.tableView reloadData];
         
     });
@@ -157,8 +163,14 @@
     
     ObjectOferta *oferta = _ofertas[indexPath.row];
     
-    cell.titulo.text = oferta.titulo;
+    NSNumber *price = [NSNumber numberWithDouble:oferta.precio];
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
+    NSString *numberAsString = [numberFormatter stringFromNumber:price];
     
+    cell.titulo.text = oferta.titulo;
+    cell.precio.text = numberAsString;
+    cell.lugar.text = oferta.tienda;
     [cell setCalificacion:oferta.calificacion];
     
     if(!oferta.imageSource){
@@ -177,6 +189,18 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    _ofertaSelect = _ofertas[indexPath.row];
+    print(NSLog(@"Detalles %i",_ofertaSelect.ofertaid))
+    [self performSegueWithIdentifier:@"Detalle" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    DetalleOferta *destination = [segue destinationViewController];
+    
+    destination.ofertaid = _ofertaSelect.ofertaid;
+}
 
 #pragma mark - Table cell image support
 

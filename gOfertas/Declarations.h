@@ -16,7 +16,10 @@
 #import "ObjectOferta.h"
 #import "ObjectResponse.h"
 #import "Parser.h"
+#import "AlertProvider.h"
 
+#define ERROR               @"Error"
+#define CAMPO_VACIO         @"Los campos no pueden estar vacíos"
 #define nDebugEnable        1
 #define print(x)            if(nDebugEnable){(x);}
 

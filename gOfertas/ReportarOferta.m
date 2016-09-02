@@ -51,6 +51,8 @@
     _selectedCatId = 0;
     _calificacion = 5;
     
+    _loadingView = [[LoadingView alloc] init];
+    
     [self refreshCalificaciones];
 }
 
@@ -63,7 +65,6 @@
 
 -(void)queueLoadData{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    //[_indicator startAnimating];
     
     NSOperationQueue *queue = [NSOperationQueue new];
     
@@ -76,7 +77,6 @@
     [opDidGet addDependency:opGet];
     
     [queue addOperation:opDidGet];
-    
     
 }
 
@@ -93,15 +93,63 @@
         
         ObjectResponse *object  = [Parser parseGeoObject];
         
-        _lugares = object.lugares;
+        _lugares = object.stores;
         
-        for (ObjectLugar *lugar in object.lugares) {
-            print(NSLog(@"%i %@",lugar.id_lugar,lugar.nombre))
+        for (ObjectLugar *lugar in object.stores) {
+            print(NSLog(@"%i %@",lugar.store_id,lugar.name))
         }
         
         
     });
 }
+
+-(void)queueReportar{
+    
+    [self dismissKeyboard];
+    
+    [self.navigationController.view addSubview:_loadingView];
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    NSOperationQueue *queue = [NSOperationQueue new];
+    
+    NSInvocationOperation *opGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(wsAddReporte) object:nil];
+    
+    [queue addOperation:opGet];
+    
+    NSInvocationOperation *opDidGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(didReportar) object:nil];
+    
+    [opDidGet addDependency:opGet];
+    
+    [queue addOperation:opDidGet];
+    
+}
+
+-(void)wsAddReporte{
+    mjsonGeo = [WebServices reportarOferta:_ofertaObject];
+}
+
+-(void)didReportar{
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+       [_loadingView removeFromSuperview];
+        
+        ObjectResponse *object  = [Parser parseGeoObject];
+        
+        if([object.state isEqualToString:@"SUCCESS POST"]){
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            print(NSLog(@"ERROR %@",object.message))
+        }
+        
+    });
+}
+
+//=======
 
 
 -(void)refreshCalificaciones{
@@ -187,22 +235,41 @@
 
 - (IBAction)reportar:(id)sender {
     
-    NSInteger lugId = ((ObjectLugar*)_lugares[_lugar]).id_lugar;
+    NSInteger lugId = ((ObjectLugar*)_lugares[_lugar]).store_id;
     NSInteger uid = 1;
     
     print(NSLog(@"%@",_ofertaTxt.text))
     print(NSLog(@"%@",_descripcionTxt.text))
     print(NSLog(@"%@",_precioTxt.text))
     print(NSLog(@"%i",_calificacion))
-    print(NSLog(@"%i",_categoriaId))
+    print(NSLog(@"%i",_categoriaId+1))
     print(NSLog(@"%f",[_latitude doubleValue]))
     print(NSLog(@"%f",[_longitude doubleValue]))
     print(NSLog(@"%i",!_nacionalChoose.selectedSegmentIndex))
     print(NSLog(@"%i",lugId))
     print(NSLog(@"%i",uid))
-
-
     
+    if ([_ofertaTxt.text isEqualToString:@""] || [_precioTxt.text isEqualToString:@""] || [_descripcionTxt.text isEqualToString:@""]) {
+        [AlertProvider showMessage:CAMPO_VACIO andTitle:ERROR inController:self];
+        return;
+    }
+    
+    
+    _ofertaObject = [[ObjectOferta alloc] init];
+    
+    _ofertaObject.titulo = _ofertaTxt.text;
+    _ofertaObject.descripcion = _descripcionTxt.text;
+    _ofertaObject.precio = [_precioTxt.text doubleValue];
+    _ofertaObject.url = _urlTxt.text;
+    _ofertaObject.calificacion = _calificacion;
+    _ofertaObject.categoriaid = _categoriaId+1;
+    _ofertaObject.tiendaid = lugId;
+    _ofertaObject.latitud = [_latitude doubleValue];
+    _ofertaObject.longitud= [_longitude doubleValue];
+    _ofertaObject.esLocal = !_nacionalChoose.selectedSegmentIndex;
+    _ofertaObject.usuarioid = uid;
+
+    [self queueReportar];
 
 }
 
@@ -235,7 +302,7 @@
 
 -(void)lugarAccept{
     _lugar = _lugarId;
-    _lugarLabel.text = ((ObjectLugar*)_lugares[_lugar]).nombre;
+    _lugarLabel.text = ((ObjectLugar*)_lugares[_lugar]).name;
     [_lugaresPicker close];
 }
 
@@ -283,7 +350,7 @@
         return _calificaciones[row];
 
     }else if(pickerView == _lugaresPicker.pickerView){
-        return ((ObjectLugar*)_lugares[row]).nombre;
+        return ((ObjectLugar*)_lugares[row]).name;
     }else{
         return @"";
     }

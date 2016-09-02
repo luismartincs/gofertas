@@ -13,4 +13,7 @@
 
 + (ObjectResponse *)parseGeoObject;
 
++ (ObjectOferta *)parseOferta;
+
+
 @end

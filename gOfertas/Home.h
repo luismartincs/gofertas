@@ -17,6 +17,7 @@
 @interface Home : UIViewController<GMSMapViewDelegate,CLLocationManagerDelegate>
 
 @property(nonatomic,strong) GMSMapView *mapView;
+@property(nonatomic,strong) NSMutableDictionary *markersOffers;
 @property(nonatomic,strong) CLLocationManager *locationManager;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (nonatomic,strong) NSString *latitude;

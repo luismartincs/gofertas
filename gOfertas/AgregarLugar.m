@@ -36,4 +36,54 @@
     [self.view endEditing:YES];
 }
 
+-(void)queueLoadData{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [self.navigationController.view addSubview:_loadingView];
+    
+    NSOperationQueue *queue = [NSOperationQueue new];
+    
+    NSInvocationOperation *opGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(loadData) object:nil];
+    
+    [queue addOperation:opGet];
+    
+    NSInvocationOperation *opDidGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(didLoadData) object:nil];
+    
+    [opDidGet addDependency:opGet];
+    
+    [queue addOperation:opDidGet];
+    
+}
+
+-(void)loadData{
+    mjsonGeo = [WebServices agregaLugarWithLatitude:_latitude AndLongitude:_longitude AndName:_nombreTxt.text];
+}
+
+-(void)didLoadData{
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [_loadingView removeFromSuperview];
+        
+        ObjectResponse *object  = [Parser parseGeoObject];
+        
+        if([object.state isEqualToString:@"SUCCESS POST"]){
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            print(NSLog(@"ERROR %@",object.message))
+        }
+        
+    });
+}
+
+- (IBAction)guardar:(id)sender {
+    if(![_nombreTxt.text isEqualToString:@""]){
+        [self dismissKeyboard];
+        [self queueLoadData];
+    }else{
+        [AlertProvider showMessage:CAMPO_VACIO andTitle:ERROR inController:self];
+    }
+}
 @end

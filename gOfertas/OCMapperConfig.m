@@ -20,13 +20,13 @@
     [[ObjectMapper sharedInstance] setMappingProvider:inCodeMappingProvider];
     [[ObjectMapper sharedInstance] setLoggingProvider:commonLoggingProvider];
  
-    [inCodeMappingProvider mapFromDictionaryKey:@"ofertas"
-                                  toPropertyKey:@"ofertas"
+    [inCodeMappingProvider mapFromDictionaryKey:@"offers"
+                                  toPropertyKey:@"offers"
                                  withObjectType:[ObjectOferta class]
                                        forClass:[ObjectResponse class]];
     
-    [inCodeMappingProvider mapFromDictionaryKey:@"lugares"
-                                  toPropertyKey:@"lugares"
+    [inCodeMappingProvider mapFromDictionaryKey:@"stores"
+                                  toPropertyKey:@"stores"
                                  withObjectType:[ObjectLugar class]
                                        forClass:[ObjectResponse class]];
 

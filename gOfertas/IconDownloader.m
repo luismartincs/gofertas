@@ -30,7 +30,7 @@
 // -------------------------------------------------------------------------------
 - (void)startDownload
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.imageUrl]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.foto]];
 
     // create an session data task to obtain and download the app icon
     _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request

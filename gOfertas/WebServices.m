@@ -9,9 +9,14 @@
 #import "WebServices.h"
 #import "Declarations.h"
 
-#define nURLMain            @"http://dev-env.z3hhvavp5h.us-west-2.elasticbeanstalk.com/index.php/computomovil/"
-#define nURLByGeoCoord      @"cercanas"
-#define nURLLugares         @"lugares"
+//#define nURLMain            @"http://dev-env.z3hhvavp5h.us-west-2.elasticbeanstalk.com/index.php/computomovil/"
+#define nURLMain              @"http://computomovil.us-west-2.elasticbeanstalk.com/index.php/"
+
+#define nURLByGeoCoord      @"getOfferByLatLon"
+#define nURLSaveOffer       @"saveOffer"
+#define nURLDetalle         @"getOfferById"
+#define nURLSaveStore       @"saveStore"
+#define nURLStores          @"getAllStores"
 
 #define nGET                0
 #define nPOST               1
@@ -39,13 +44,47 @@
 + (NSDictionary *)getOfertasCercanasWithLatitude:(NSString*)latitude AndLongitude:(NSString*)longitude{
     
     print(NSLog(@"getOfertasCercanasWithLatitude"))
+    
+    NSMutableArray *favs = (NSMutableArray*)[[[NSUserDefaults standardUserDefaults] objectForKey:@"favoritos"] mutableCopy];
+    
+    NSInteger radio = [[NSUserDefaults standardUserDefaults] integerForKey:@"radio"];
+    
+    NSString *stData = [@"" stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"lat="];
+    stData           = [stData stringByAppendingString:latitude];
+    stData           = [stData stringByAppendingString:@"&lon="];
+    stData           = [stData stringByAppendingString:longitude];
+    stData           = [stData stringByAppendingString:@"&r="];
+    stData           = [stData stringByAppendingFormat:@"%i",radio];
+    stData           = [stData stringByAppendingString:@"&c="];
+    
+    BOOL first = YES;
+    NSInteger count;
+    
+    for (NSInteger i=0; i < favs.count; i++){
+        
+        if([favs[i] integerValue] == 1){
+            if (first) {
+                
+                stData = [stData stringByAppendingFormat:@"%i",(i+1)];
+                first = NO;
+            }else{
+                
+                stData = [stData stringByAppendingString:@","];
+                stData = [stData stringByAppendingFormat:@"%i",(i+1)];
+            }
 
-    NSMutableDictionary *diData = [[NSMutableDictionary alloc] init];
+        }else{
+            count+=1;
+        }
+    }
     
-    [diData setValue:latitude forKey:@"latitude"];
-    [diData setValue:longitude forKey:@"longitude"];
+    if(count == favs.count){
+        stData = [stData stringByAppendingString:@"-1"];
+
+    }
     
-    NSString  *stData           = [diData JSONRepresentation];
+    
     
     NSString *stURL = [nURLMain stringByAppendingString:nURLByGeoCoord];
     
@@ -64,7 +103,79 @@
     
     NSString  *stData           = [diData JSONRepresentation];
     
-    NSString *stURL = [nURLMain stringByAppendingString:nURLLugares];
+    NSString *stURL = [nURLMain stringByAppendingString:nURLStores];
+    
+    return [self sendPost:stURL forData:stData andMode:nPOST];
+    
+}
+
++ (NSDictionary *)getDetalleOferta:(NSInteger)ofertaid{
+    
+    print(NSLog(@"getOfertasCercanasWithLatitude"))
+    
+    NSString *stData = [@"" stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"offer_id="];
+    stData           = [stData stringByAppendingFormat:@"%i",ofertaid];
+    
+    
+    NSString *stURL = [nURLMain stringByAppendingString:nURLDetalle];
+    
+    return [self sendPost:stURL forData:stData andMode:nPOST];
+
+    
+}
+
+//AGREGAR
+
++ (NSDictionary *)reportarOferta:(ObjectOferta*)oferta{
+    
+    print(NSLog(@"reportarOferta"))
+    
+    NSString *stData = [@"" stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"title="];
+    stData           = [stData stringByAppendingString:oferta.titulo];
+    stData           = [stData stringByAppendingString:@"&description="];
+    stData           = [stData stringByAppendingString:oferta.descripcion];
+    stData           = [stData stringByAppendingString:@"&score="];
+    stData           = [stData stringByAppendingFormat:@"%i",oferta.calificacion];
+    stData           = [stData stringByAppendingString:@"&category_id="];
+    stData           = [stData stringByAppendingFormat:@"%i",oferta.categoriaid];
+    stData           = [stData stringByAppendingString:@"&price="];
+    stData           = [stData stringByAppendingFormat:@"%f",oferta.precio];
+    stData           = [stData stringByAppendingString:@"&store_id="];
+    stData           = [stData stringByAppendingFormat:@"%i",oferta.tiendaid];
+    stData           = [stData stringByAppendingString:@"&lat="];
+    stData           = [stData stringByAppendingFormat:@"%.6f",oferta.latitud];
+    stData           = [stData stringByAppendingString:@"&lon="];
+    stData           = [stData stringByAppendingFormat:@"%.6f",oferta.longitud];
+    stData           = [stData stringByAppendingString:@"&picture="];
+    stData           = [stData stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"&url="];
+    stData           = [stData stringByAppendingString:oferta.url];
+    stData           = [stData stringByAppendingString:@"&is_nationalwide="];
+    stData           = [stData stringByAppendingFormat:@"%i",oferta.esLocal];
+    stData           = [stData stringByAppendingString:@"&user_id="];
+    stData           = [stData stringByAppendingFormat:@"%i",oferta.usuarioid];
+    
+    NSString *stURL = [nURLMain stringByAppendingString:nURLSaveOffer];
+    
+    return [self sendPost:stURL forData:stData andMode:nPOST];
+    
+}
+
++ (NSDictionary *)agregaLugarWithLatitude:(NSString *)latitude AndLongitude:(NSString*)longitude AndName:(NSString*)name{
+    
+    print(NSLog(@"agregaLugarWithLatitude"))
+    
+    NSString *stData = [@"" stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"lat="];
+    stData           = [stData stringByAppendingString:latitude];
+    stData           = [stData stringByAppendingString:@"&lon="];
+    stData           = [stData stringByAppendingString:longitude];
+    stData           = [stData stringByAppendingString:@"&name="];
+    stData           = [stData stringByAppendingString:name];
+    
+    NSString *stURL = [nURLMain stringByAppendingString:nURLSaveStore];
     
     return [self sendPost:stURL forData:stData andMode:nPOST];
     
@@ -78,7 +189,7 @@
         
         if (mode) {
             //Post method
-            post = [[NSString alloc] initWithFormat:@"data=%@", data];
+            post = [[NSString alloc] initWithFormat:@"%@", data];
         }
         else {
             //Get method
@@ -113,9 +224,11 @@
         NSHTTPURLResponse *response = nil;
         NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
+        NSString *dd = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        
         //Check response
         print(NSLog(@"[response statusCode] %d",(int)[response statusCode]))
-        print(NSLog(@"[response] %@",response))
+        print(NSLog(@"[response] %@",dd))
         
         if ([response statusCode] >=200 && [response statusCode] <308) {
             //get json response

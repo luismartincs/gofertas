@@ -10,7 +10,7 @@
 
 @interface ObjectLugar : NSObject
 
-@property (nonatomic) NSInteger id_lugar;
-@property (nonatomic,strong) NSString *nombre;
+@property (nonatomic) NSInteger store_id;
+@property (nonatomic,strong) NSString *name;
 
 @end
