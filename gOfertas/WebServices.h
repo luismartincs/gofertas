@@ -17,11 +17,16 @@
 + (NSDictionary *)getLugaresCercanosWithLatitude:(NSString*)latitude AndLongitude:(NSString*)longitude;
 + (NSDictionary *)getDetalleOferta:(NSInteger)ofertaid;
 
++ (NSDictionary *)loginWithUser:(NSString*)username andPassword:(NSString*)password;
++ (NSDictionary *)checkUser:(NSString*)username;
+
 
 //================= Agregar
 
++ (NSDictionary *)subirFoto:(NSString*)base64 andName:(NSString*)name;
 + (NSDictionary *)reportarOferta:(ObjectOferta*)oferta;
 + (NSDictionary *)agregaLugarWithLatitude:(NSString *)latitude AndLongitude:(NSString*)longitude AndName:(NSString*)name;
++ (NSDictionary *)registrarWithUser:(NSString *)username AndEmail:(NSString*)email AndPassword:(NSString*)password;
 
 
 + (NSDictionary*) sendPost:(NSString*)postUrl forData:(NSString *)data andMode:(BOOL)mode;

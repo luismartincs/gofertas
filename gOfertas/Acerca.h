@@ -1,5 +1,5 @@
 //
-//  Cuenta.h
+//  Acerca.h
 //  gOfertas
 //
 //  Created by Luis de Jesus Martin Castillo on 02/09/16.
@@ -8,11 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Cuenta : UIViewController
-
+@interface Acerca : UIViewController
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
-@property (strong, nonatomic) IBOutlet UILabel *usernameTxt;
-@property (strong, nonatomic) IBOutlet UILabel *emailTxt;
-- (IBAction)logout:(id)sender;
 
 @end

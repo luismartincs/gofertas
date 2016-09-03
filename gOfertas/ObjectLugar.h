@@ -10,7 +10,9 @@
 
 @interface ObjectLugar : NSObject
 
-@property (nonatomic) NSInteger store_id;
+@property (nonatomic) NSInteger storeid;
 @property (nonatomic,strong) NSString *name;
+@property (nonatomic) double latitud;
+@property (nonatomic) double longitud;
 
 @end

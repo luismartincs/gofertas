@@ -7,6 +7,7 @@
 //
 
 #import "DetalleOferta.h"
+#import "IconDownloader.h"
 
 @interface DetalleOferta ()
 
@@ -32,10 +33,33 @@
 
 #pragma mark - Web Services
 
+-(void)downloadImage:(ObjectOferta*)appRecord{
+    
+    if ([appRecord.foto isEqualToString:@""]) {
+        [_activityIndicator stopAnimating];
+        return;
+    }
+    
+        IconDownloader *iconDownloader = nil;
+    
+        iconDownloader = [[IconDownloader alloc] init];
+        iconDownloader.appRecord = appRecord;
+        [iconDownloader setCompletionHandler:^{
+            
+            _imagen.image = appRecord.imageSource;
+            [_activityIndicator stopAnimating];
+            
+        }];
+        
+        [iconDownloader startDownload];
+    
+
+}
 
 -(void)queueLoadData{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [self.navigationController.view addSubview:_loadingView];
+    [_activityIndicator startAnimating];
 
     NSOperationQueue *queue = [NSOperationQueue new];
     
@@ -61,6 +85,7 @@
     
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        
         
         [_loadingView removeFromSuperview];
 
@@ -98,7 +123,8 @@
             [_rankContainer addSubview:starv];
             
         }
-
+        
+        [self downloadImage:of];
         
     });
 }

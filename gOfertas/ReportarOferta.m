@@ -62,6 +62,59 @@
 
 #pragma mark - Web Services
 
+-(void)queueSubirFoto{
+    [self dismissKeyboard];
+    
+    [self.navigationController.view addSubview:_loadingView];
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    NSOperationQueue *queue = [NSOperationQueue new];
+    
+    NSInvocationOperation *opGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(loadFoto) object:nil];
+    
+    [queue addOperation:opGet];
+    
+    NSInvocationOperation *opDidGet = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(didLoadFoto) object:nil];
+    
+    [opDidGet addDependency:opGet];
+    
+    [queue addOperation:opDidGet];
+    
+}
+
+-(void)loadFoto{
+    
+    UIImage *reduced = [self resizeImage:_imageOferta.image];
+    _base64 = [UIImagePNGRepresentation(reduced) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+   
+    mjsonGeo = [WebServices subirFoto:_base64 andName:_ofertaObject.foto];
+}
+
+-(void)didLoadFoto{
+    
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        ObjectResponse *object  = [Parser parseGeoObject];
+        
+        if([object.state isEqualToString:@"SUCCESS POST IMAGE"]){
+            
+            [self queueReportar];
+            
+        }else{
+            [AlertProvider showMessage:object.message andTitle:ERROR inController:self];
+            
+            [_loadingView removeFromSuperview];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+        }
+
+        
+    });
+}
+
 
 -(void)queueLoadData{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -96,7 +149,7 @@
         _lugares = object.stores;
         
         for (ObjectLugar *lugar in object.stores) {
-            print(NSLog(@"%i %@",lugar.store_id,lugar.name))
+            print(NSLog(@"%li %@",(long)lugar.storeid,lugar.name))
         }
         
         
@@ -141,6 +194,7 @@
         ObjectResponse *object  = [Parser parseGeoObject];
         
         if([object.state isEqualToString:@"SUCCESS POST"]){
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_HOME" object:nil];
             [self dismissViewControllerAnimated:YES completion:nil];
         }else{
             print(NSLog(@"ERROR %@",object.message))
@@ -235,8 +289,19 @@
 
 - (IBAction)reportar:(id)sender {
     
-    NSInteger lugId = ((ObjectLugar*)_lugares[_lugar]).store_id;
-    NSInteger uid = 1;
+    
+    ObjectLugar *lugarObj = (ObjectLugar*)_lugares[_lugar];
+    NSInteger lugId = lugarObj.storeid;
+    NSInteger uid = [[NSUserDefaults standardUserDefaults] integerForKey:@"userid"] ;
+
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSString *formatString = @"yyyyMMddHHmmssSSS";
+    [formatter setDateFormat:formatString];
+    NSString *ff = [formatter stringFromDate:[NSDate date]];
+    
+    NSString *picName = [NSString stringWithFormat:@"USR_%i_IMG_%@.JPG",uid,ff];
+
     
     print(NSLog(@"%@",_ofertaTxt.text))
     print(NSLog(@"%@",_descripcionTxt.text))
@@ -264,12 +329,14 @@
     _ofertaObject.calificacion = _calificacion;
     _ofertaObject.categoriaid = _categoriaId+1;
     _ofertaObject.tiendaid = lugId;
-    _ofertaObject.latitud = [_latitude doubleValue];
-    _ofertaObject.longitud= [_longitude doubleValue];
+    _ofertaObject.latitud = lugarObj.latitud;
+    _ofertaObject.longitud= lugarObj.longitud;
     _ofertaObject.esLocal = !_nacionalChoose.selectedSegmentIndex;
     _ofertaObject.usuarioid = uid;
+    _ofertaObject.foto = picName;
 
-    [self queueReportar];
+    [self queueSubirFoto];
+    
 
 }
 
@@ -279,6 +346,50 @@
     self.imageOferta.image = chosenImage;
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+}
+
+-(UIImage *)resizeImage:(UIImage *)image
+{
+    float actualHeight = image.size.height;
+    float actualWidth = image.size.width;
+    float maxHeight = 480.0;
+    float maxWidth = 640.0;
+    float imgRatio = actualWidth/actualHeight;
+    float maxRatio = maxWidth/maxHeight;
+    float compressionQuality = 0.5;//50 percent compression
+    
+    if (actualHeight > maxHeight || actualWidth > maxWidth)
+    {
+        if(imgRatio < maxRatio)
+        {
+            //adjust width according to maxHeight
+            imgRatio = maxHeight / actualHeight;
+            actualWidth = imgRatio * actualWidth;
+            actualHeight = maxHeight;
+        }
+        else if(imgRatio > maxRatio)
+        {
+            //adjust height according to maxWidth
+            imgRatio = maxWidth / actualWidth;
+            actualHeight = imgRatio * actualHeight;
+            actualWidth = maxWidth;
+        }
+        else
+        {
+            actualHeight = maxHeight;
+            actualWidth = maxWidth;
+        }
+    }
+    
+    CGRect rect = CGRectMake(0.0, 0.0, actualWidth, actualHeight);
+    UIGraphicsBeginImageContext(rect.size);
+    [image drawInRect:rect];
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    NSData *imageData = UIImageJPEGRepresentation(img, compressionQuality);
+    UIGraphicsEndImageContext();
+    
+    return [UIImage imageWithData:imageData];
     
 }
 

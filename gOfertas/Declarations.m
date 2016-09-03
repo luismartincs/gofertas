@@ -9,6 +9,8 @@
 #import "Declarations.h"
 
 NSDictionary *mjsonGeo;
+NSMutableArray *maIntroTitles;
+NSMutableArray *maIntroImgs;
 
 @implementation Declarations
 

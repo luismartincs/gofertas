@@ -15,5 +15,7 @@
 
 + (ObjectOferta *)parseOferta;
 
++ (ObjectUsuario *)parseUsuario;
+
 
 @end

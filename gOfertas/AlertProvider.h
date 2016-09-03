@@ -12,5 +12,6 @@
 @interface AlertProvider : NSObject
 
 +(void)showMessage:(NSString*)message andTitle:(NSString*)title inController:(UIViewController*)controller;
++(void)showMessage:(NSString*)message andTitle:(NSString*)title inController:(UIViewController*)controller andHide:(BOOL)hide;
 
 @end

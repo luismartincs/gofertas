@@ -10,6 +10,7 @@
 #import "Cuenta.h"
 #import "Home.h"
 #import "Configuracion.h"
+#import "Acerca.h"
 #import "SWRevealViewController.h"
 
 @implementation Menu
@@ -101,6 +102,20 @@
         
         nav.navigationBar.barTintColor = [UIColor colorWithRed:1.0 green:149.0/255.0 blue:0 alpha:1];
 
+        nav.navigationBar.tintColor = [UIColor whiteColor];
+        
+        nav.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        
+        [self.revealViewController pushFrontViewController:nav animated:YES];
+    
+    }else if(indexPath.row == 4){
+        
+        Acerca *c = [self.storyboard instantiateViewControllerWithIdentifier:@"Acerca"];
+        
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:c];
+        
+        nav.navigationBar.barTintColor = [UIColor colorWithRed:1.0 green:149.0/255.0 blue:0 alpha:1];
+        
         nav.navigationBar.tintColor = [UIColor whiteColor];
         
         nav.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];

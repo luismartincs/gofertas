@@ -12,6 +12,7 @@
 #import "SBJson.h"
 #import "ObjectMapper.h"
 
+#import "ObjectUsuario.h"
 #import "ObjectLugar.h"
 #import "ObjectOferta.h"
 #import "ObjectResponse.h"
@@ -19,12 +20,18 @@
 #import "AlertProvider.h"
 
 #define ERROR               @"Error"
+#define REGISTRO_USUARIO    @"Registro Usuario"
 #define CAMPO_VACIO         @"Los campos no pueden estar vacíos"
+#define PASSWORD_IGUALES    @"Las contraseñas deben coincidir"
+#define EMAIL_INCORRECTO    @"El formato de correo electrónico es incorrecto"
+#define USERNAME_INVALIDO   @"El nombre de usuario ya esta en uso"
 #define nDebugEnable        1
 #define print(x)            if(nDebugEnable){(x);}
 
 
 extern NSDictionary         *mjsonGeo;
+extern NSMutableArray *maIntroTitles;
+extern NSMutableArray *maIntroImgs;
 
 @interface Declarations : NSObject
 

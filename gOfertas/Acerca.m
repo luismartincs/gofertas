@@ -1,19 +1,19 @@
 //
-//  Cuenta.m
+//  Acerca.m
 //  gOfertas
 //
 //  Created by Luis de Jesus Martin Castillo on 02/09/16.
 //  Copyright © 2016 Luis de Jesus Martin Castillo. All rights reserved.
 //
 
-#import "Cuenta.h"
+#import "Acerca.h"
 #import "SWRevealViewController.h"
 
-@interface Cuenta ()
+@interface Acerca ()
 
 @end
 
-@implementation Cuenta
+@implementation Acerca
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,8 +27,6 @@
         [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     }
     
-    _usernameTxt.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
-    _emailTxt.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"email"];
 
     
 }
@@ -48,16 +46,4 @@
 }
 */
 
-- (IBAction)logout:(id)sender {
-    
-    SWRevealViewController *main = [self.storyboard instantiateViewControllerWithIdentifier:@"Login"];
-    
-    [self presentViewController:main animated:YES completion:nil];
-    
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"logged"];
-    
-    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"username"];
-    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"password"];
-    [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"email"];
-}
 @end

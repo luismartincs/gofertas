@@ -13,6 +13,7 @@
 
 #define kAppIconSize 48
 
+#define baseURL @"https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-735176841264/images/"
 
 @interface IconDownloader ()
 
@@ -30,7 +31,8 @@
 // -------------------------------------------------------------------------------
 - (void)startDownload
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.foto]];
+    NSString *baseWithSource = [baseURL stringByAppendingString:self.appRecord.foto];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:baseWithSource]];
 
     // create an session data task to obtain and download the app icon
     _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request

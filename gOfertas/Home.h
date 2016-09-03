@@ -22,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (nonatomic,strong) NSString *latitude;
 @property (nonatomic,strong) NSString *longitude;
+@property (nonatomic,strong) GMSMarker *marker;
 
 @end
 

@@ -51,6 +51,8 @@
 @property (strong, nonatomic) IBOutlet UITextView *descripcionTxt;
 
 @property (strong,nonatomic) ObjectOferta *ofertaObject;
+@property (strong,nonatomic) NSString *base64;
+
 
 - (IBAction)cancelar:(id)sender;
 - (IBAction)foto:(id)sender;

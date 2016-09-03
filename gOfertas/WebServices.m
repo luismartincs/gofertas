@@ -17,6 +17,12 @@
 #define nURLDetalle         @"getOfferById"
 #define nURLSaveStore       @"saveStore"
 #define nURLStores          @"getAllStores"
+#define nURLStoresByLatLon  @"getStoresByLatLon"
+
+#define nURLSaveUser        @"saveUser"
+#define nURLCheckUsername   @"checkUsername"
+#define nURLLogin           @"logInUser"
+#define nURLSaveImage       @"saveImage"
 
 #define nGET                0
 #define nPOST               1
@@ -59,7 +65,7 @@
     stData           = [stData stringByAppendingString:@"&c="];
     
     BOOL first = YES;
-    NSInteger count;
+    NSInteger count = 0;
     
     for (NSInteger i=0; i < favs.count; i++){
         
@@ -84,6 +90,8 @@
 
     }
     
+    print(NSLog(@"%i , %i",count,favs.count))
+
     
     
     NSString *stURL = [nURLMain stringByAppendingString:nURLByGeoCoord];
@@ -96,14 +104,19 @@
     
     print(NSLog(@"getLugaresCercanosWithLatitude"))
     
-    NSMutableDictionary *diData = [[NSMutableDictionary alloc] init];
     
-    [diData setValue:latitude forKey:@"latitude"];
-    [diData setValue:longitude forKey:@"longitude"];
+    NSInteger radio = [[NSUserDefaults standardUserDefaults] integerForKey:@"radio"];
     
-    NSString  *stData           = [diData JSONRepresentation];
+    NSString *stData = [@"" stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"lat="];
+    stData           = [stData stringByAppendingString:latitude];
+    stData           = [stData stringByAppendingString:@"&lon="];
+    stData           = [stData stringByAppendingString:longitude];
+    stData           = [stData stringByAppendingString:@"&r="];
+    stData           = [stData stringByAppendingFormat:@"%i",radio];
+
     
-    NSString *stURL = [nURLMain stringByAppendingString:nURLStores];
+    NSString *stURL = [nURLMain stringByAppendingString:nURLStoresByLatLon];
     
     return [self sendPost:stURL forData:stData andMode:nPOST];
     
@@ -122,6 +135,38 @@
     
     return [self sendPost:stURL forData:stData andMode:nPOST];
 
+    
+}
+
++ (NSDictionary *)loginWithUser:(NSString*)username andPassword:(NSString*)password{
+    
+    print(NSLog(@"loginWithUser"))
+    
+    NSString *stData = [@"" stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"username="];
+    stData           = [stData stringByAppendingString:username];
+    stData           = [stData stringByAppendingString:@"&password="];
+    stData           = [stData stringByAppendingString:password];
+    
+    
+    NSString *stURL = [nURLMain stringByAppendingString:nURLLogin];
+    
+    return [self sendPost:stURL forData:stData andMode:nPOST];
+    
+}
+
++ (NSDictionary *)checkUser:(NSString*)username{
+    
+    print(NSLog(@"checkUser"))
+    
+    NSString *stData = [@"" stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"username="];
+    stData           = [stData stringByAppendingString:username];
+
+    
+    NSString *stURL = [nURLMain stringByAppendingString:nURLCheckUsername];
+    
+    return [self sendPost:stURL forData:stData andMode:nPOST];
     
 }
 
@@ -149,7 +194,7 @@
     stData           = [stData stringByAppendingString:@"&lon="];
     stData           = [stData stringByAppendingFormat:@"%.6f",oferta.longitud];
     stData           = [stData stringByAppendingString:@"&picture="];
-    stData           = [stData stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:oferta.foto];
     stData           = [stData stringByAppendingString:@"&url="];
     stData           = [stData stringByAppendingString:oferta.url];
     stData           = [stData stringByAppendingString:@"&is_nationalwide="];
@@ -161,6 +206,21 @@
     
     return [self sendPost:stURL forData:stData andMode:nPOST];
     
+}
+
++ (NSDictionary *)subirFoto:(NSString*)base64 andName:(NSString*)name{
+    
+    print(NSLog(@"subirFoto"))
+    
+    NSString *stData = [@"" stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"data="];
+    stData           = [stData stringByAppendingString:base64];
+    stData           = [stData stringByAppendingString:@"&image_name="];
+    stData           = [stData stringByAppendingString:name];
+    
+    NSString *stURL = [nURLMain stringByAppendingString:nURLSaveImage];
+    
+    return [self sendPost:stURL forData:stData andMode:nPOST];
 }
 
 + (NSDictionary *)agregaLugarWithLatitude:(NSString *)latitude AndLongitude:(NSString*)longitude AndName:(NSString*)name{
@@ -176,6 +236,26 @@
     stData           = [stData stringByAppendingString:name];
     
     NSString *stURL = [nURLMain stringByAppendingString:nURLSaveStore];
+    
+    return [self sendPost:stURL forData:stData andMode:nPOST];
+    
+}
+
++ (NSDictionary *)registrarWithUser:(NSString *)username AndEmail:(NSString*)email AndPassword:(NSString*)password{
+    
+    print(NSLog(@"registrarWithUser"))
+    
+    NSString *stData = [@"" stringByAppendingString:@""];
+    stData           = [stData stringByAppendingString:@"username="];
+    stData           = [stData stringByAppendingString:username];
+    stData           = [stData stringByAppendingString:@"&email="];
+    stData           = [stData stringByAppendingString:email];
+    stData           = [stData stringByAppendingString:@"&password="];
+    stData           = [stData stringByAppendingString:password];
+    stData           = [stData stringByAppendingString:@"&status="];
+    stData           = [stData stringByAppendingString:@"1"];
+    
+    NSString *stURL = [nURLMain stringByAppendingString:nURLSaveUser];
     
     return [self sendPost:stURL forData:stData andMode:nPOST];
     

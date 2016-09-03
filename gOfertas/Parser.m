@@ -27,4 +27,12 @@
     return nil;
 }
 
++ (ObjectUsuario *)parseUsuario{
+    if(mjsonGeo != nil) {
+        ObjectUsuario *customizedObject = [[ObjectMapper sharedInstance] objectFromSource:mjsonGeo toInstanceOfClass:[ObjectUsuario class]];
+        return customizedObject;
+    }
+    return nil;
+}
+
 @end

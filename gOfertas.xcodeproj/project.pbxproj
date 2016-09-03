@@ -76,6 +76,18 @@
 		A0C8E2821D796BFC004B91A3 /* AlertProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E2811D796BFC004B91A3 /* AlertProvider.m */; };
 		A0C8E2851D7976EC004B91A3 /* Cuenta.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E2841D7976EC004B91A3 /* Cuenta.m */; };
 		A0C8E2881D79851D004B91A3 /* Configuracion.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E2871D79851D004B91A3 /* Configuracion.m */; };
+		A0C8E28B1D79E5A5004B91A3 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E28A1D79E5A5004B91A3 /* Login.m */; };
+		A0C8E28E1D79F3AF004B91A3 /* Registrar.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E28D1D79F3AF004B91A3 /* Registrar.m */; };
+		A0C8E2911D79FB5D004B91A3 /* NSString+ExtendedString.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E2901D79FB5D004B91A3 /* NSString+ExtendedString.m */; };
+		A0C8E2931D7A0426004B91A3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A0C8E2921D7A0426004B91A3 /* libz.tbd */; };
+		A0C8E2951D7A0432004B91A3 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A0C8E2941D7A0432004B91A3 /* libstdc++.tbd */; };
+		A0C8E2981D7A18D4004B91A3 /* ObjectUsuario.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E2971D7A18D4004B91A3 /* ObjectUsuario.m */; };
+		A0C8E29B1D7A4D51004B91A3 /* Acerca.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E29A1D7A4D51004B91A3 /* Acerca.m */; };
+		A0C8E29F1D7A6A2B004B91A3 /* IntroPages.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E29E1D7A6A2B004B91A3 /* IntroPages.m */; };
+		A0C8E2A21D7A6AF3004B91A3 /* Intro.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8E2A11D7A6AF3004B91A3 /* Intro.m */; };
+		A0C8E2A41D7A7434004B91A3 /* tutorial1.png in Resources */ = {isa = PBXBuildFile; fileRef = A0C8E2A31D7A7434004B91A3 /* tutorial1.png */; };
+		A0C8E2A71D7A7839004B91A3 /* tutorial3.png in Resources */ = {isa = PBXBuildFile; fileRef = A0C8E2A51D7A7839004B91A3 /* tutorial3.png */; };
+		A0C8E2A81D7A7839004B91A3 /* tutorial2.png in Resources */ = {isa = PBXBuildFile; fileRef = A0C8E2A61D7A7839004B91A3 /* tutorial2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -197,6 +209,25 @@
 		A0C8E2841D7976EC004B91A3 /* Cuenta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cuenta.m; sourceTree = "<group>"; };
 		A0C8E2861D79851C004B91A3 /* Configuracion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Configuracion.h; sourceTree = "<group>"; };
 		A0C8E2871D79851D004B91A3 /* Configuracion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Configuracion.m; sourceTree = "<group>"; };
+		A0C8E2891D79E5A5004B91A3 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
+		A0C8E28A1D79E5A5004B91A3 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
+		A0C8E28C1D79F3AF004B91A3 /* Registrar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Registrar.h; sourceTree = "<group>"; };
+		A0C8E28D1D79F3AF004B91A3 /* Registrar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Registrar.m; sourceTree = "<group>"; };
+		A0C8E28F1D79FB5D004B91A3 /* NSString+ExtendedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ExtendedString.h"; sourceTree = "<group>"; };
+		A0C8E2901D79FB5D004B91A3 /* NSString+ExtendedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ExtendedString.m"; sourceTree = "<group>"; };
+		A0C8E2921D7A0426004B91A3 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		A0C8E2941D7A0432004B91A3 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		A0C8E2961D7A18D4004B91A3 /* ObjectUsuario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectUsuario.h; sourceTree = "<group>"; };
+		A0C8E2971D7A18D4004B91A3 /* ObjectUsuario.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectUsuario.m; sourceTree = "<group>"; };
+		A0C8E2991D7A4D50004B91A3 /* Acerca.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Acerca.h; sourceTree = "<group>"; };
+		A0C8E29A1D7A4D51004B91A3 /* Acerca.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Acerca.m; sourceTree = "<group>"; };
+		A0C8E29D1D7A6A2B004B91A3 /* IntroPages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPages.h; sourceTree = "<group>"; };
+		A0C8E29E1D7A6A2B004B91A3 /* IntroPages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPages.m; sourceTree = "<group>"; };
+		A0C8E2A01D7A6AF3004B91A3 /* Intro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Intro.h; sourceTree = "<group>"; };
+		A0C8E2A11D7A6AF3004B91A3 /* Intro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Intro.m; sourceTree = "<group>"; };
+		A0C8E2A31D7A7434004B91A3 /* tutorial1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorial1.png; sourceTree = "<group>"; };
+		A0C8E2A51D7A7839004B91A3 /* tutorial3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorial3.png; sourceTree = "<group>"; };
+		A0C8E2A61D7A7839004B91A3 /* tutorial2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorial2.png; sourceTree = "<group>"; };
 		A9225841B3B45C145CA5E34A /* Pods-gOfertas.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gOfertas.release.xcconfig"; path = "Pods/Target Support Files/Pods-gOfertas/Pods-gOfertas.release.xcconfig"; sourceTree = "<group>"; };
 		D0FEA93F18E85193307D0FAB /* libPods-gOfertas.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-gOfertas.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -206,6 +237,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0C8E2951D7A0432004B91A3 /* libstdc++.tbd in Frameworks */,
+				A0C8E2931D7A0426004B91A3 /* libz.tbd in Frameworks */,
 				981BFF40833C029621DE020F /* libPods-gOfertas.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,6 +249,8 @@
 		8D7C1F9535B9D2D75556C140 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A0C8E2941D7A0432004B91A3 /* libstdc++.tbd */,
+				A0C8E2921D7A0426004B91A3 /* libz.tbd */,
 				D0FEA93F18E85193307D0FAB /* libPods-gOfertas.a */,
 			);
 			name = Frameworks;
@@ -287,6 +322,7 @@
 		A087506D1D74245300B1FA90 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A0C8E29C1D7A6A0A004B91A3 /* Intro */,
 				A08750551D741B5E00B1FA90 /* Home.h */,
 				A08750721D74E41200B1FA90 /* Home.m */,
 				A08750D51D754E2B00B1FA90 /* OfertasCercanas.h */,
@@ -303,6 +339,12 @@
 				A0C8E2841D7976EC004B91A3 /* Cuenta.m */,
 				A0C8E2861D79851C004B91A3 /* Configuracion.h */,
 				A0C8E2871D79851D004B91A3 /* Configuracion.m */,
+				A0C8E2891D79E5A5004B91A3 /* Login.h */,
+				A0C8E28A1D79E5A5004B91A3 /* Login.m */,
+				A0C8E28C1D79F3AF004B91A3 /* Registrar.h */,
+				A0C8E28D1D79F3AF004B91A3 /* Registrar.m */,
+				A0C8E2991D7A4D50004B91A3 /* Acerca.h */,
+				A0C8E29A1D7A4D51004B91A3 /* Acerca.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -424,6 +466,8 @@
 				A0C8E25D1D7792E5004B91A3 /* ObjectOferta.m */,
 				A0C8E26C1D780594004B91A3 /* ObjectLugar.h */,
 				A0C8E26D1D780594004B91A3 /* ObjectLugar.m */,
+				A0C8E2961D7A18D4004B91A3 /* ObjectUsuario.h */,
+				A0C8E2971D7A18D4004B91A3 /* ObjectUsuario.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -452,6 +496,9 @@
 		A08750D01D75388C00B1FA90 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				A0C8E2A51D7A7839004B91A3 /* tutorial3.png */,
+				A0C8E2A61D7A7839004B91A3 /* tutorial2.png */,
+				A0C8E2A31D7A7434004B91A3 /* tutorial1.png */,
 				A0C8E27A1D79189D004B91A3 /* list@2x.png */,
 				A0C8E2781D7916DA004B91A3 /* report.png */,
 				A0C8E2671D77F73B004B91A3 /* logo.png */,
@@ -510,8 +557,21 @@
 				A08750FE1D76B59100B1FA90 /* MyPicker */,
 				A0C8E2801D796BFC004B91A3 /* AlertProvider.h */,
 				A0C8E2811D796BFC004B91A3 /* AlertProvider.m */,
+				A0C8E28F1D79FB5D004B91A3 /* NSString+ExtendedString.h */,
+				A0C8E2901D79FB5D004B91A3 /* NSString+ExtendedString.m */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		A0C8E29C1D7A6A0A004B91A3 /* Intro */ = {
+			isa = PBXGroup;
+			children = (
+				A0C8E29D1D7A6A2B004B91A3 /* IntroPages.h */,
+				A0C8E29E1D7A6A2B004B91A3 /* IntroPages.m */,
+				A0C8E2A01D7A6AF3004B91A3 /* Intro.h */,
+				A0C8E2A11D7A6AF3004B91A3 /* Intro.m */,
+			);
+			name = Intro;
 			sourceTree = "<group>";
 		};
 		DC93C090F39D67AC5D290654 /* Pods */ = {
@@ -595,6 +655,7 @@
 				A0C8E2641D77DA36004B91A3 /* markl.png in Resources */,
 				A0C8E27B1D79189D004B91A3 /* list@2x.png in Resources */,
 				A08750E71D7643F700B1FA90 /* galeria_btn.png in Resources */,
+				A0C8E2A41D7A7434004B91A3 /* tutorial1.png in Resources */,
 				A0C8E2621D77DA36004B91A3 /* markh.png in Resources */,
 				A08750DF1D76314C00B1FA90 /* camera.png in Resources */,
 				A08750F71D768B6E00B1FA90 /* cellOferta.xib in Resources */,
@@ -603,11 +664,13 @@
 				A08750CF1D74E85F00B1FA90 /* Podfile in Resources */,
 				A0C8E2791D7916DA004B91A3 /* report.png in Resources */,
 				A087505A1D741B5E00B1FA90 /* Main.storyboard in Resources */,
+				A0C8E2A71D7A7839004B91A3 /* tutorial3.png in Resources */,
 				A08750E91D7674D200B1FA90 /* home.png in Resources */,
 				A08750D21D75388C00B1FA90 /* slide@2x.png in Resources */,
 				A08750FB1D76A0B900B1FA90 /* star.png in Resources */,
 				A08750FD1D76A14600B1FA90 /* starg.png in Resources */,
 				A08750E31D763B7900B1FA90 /* ok@2x.png in Resources */,
+				A0C8E2A81D7A7839004B91A3 /* tutorial2.png in Resources */,
 				A08750EE1D76887B00B1FA90 /* user.png in Resources */,
 				A08750F11D76887B00B1FA90 /* thumb.png in Resources */,
 				A0C8E2631D77DA36004B91A3 /* markm.png in Resources */,
@@ -680,6 +743,7 @@
 				A08750711D74C0ED00B1FA90 /* SWRevealViewController.m in Sources */,
 				A08750B11D74E5B600B1FA90 /* SBJsonParser.m in Sources */,
 				A08750AC1D74E5B600B1FA90 /* CommonLoggingProvider.m in Sources */,
+				A0C8E2981D7A18D4004B91A3 /* ObjectUsuario.m in Sources */,
 				A08750541D741B5E00B1FA90 /* AppDelegate.m in Sources */,
 				A08750B91D74E5B600B1FA90 /* SBJsonTokeniser.m in Sources */,
 				A08750AE1D74E5B600B1FA90 /* ObjectMapper.m in Sources */,
@@ -690,25 +754,31 @@
 				A08750C41D74E62800B1FA90 /* Parser.m in Sources */,
 				A08750B01D74E5B600B1FA90 /* NSObject+SBJson.m in Sources */,
 				A08751011D76B5C700B1FA90 /* StringPickerList.m in Sources */,
+				A0C8E28E1D79F3AF004B91A3 /* Registrar.m in Sources */,
 				A08750AB1D74E5B600B1FA90 /* ObjectInstanceProvider.m in Sources */,
 				A08750A91D74E5B600B1FA90 /* NSObject+ObjectMapper.m in Sources */,
 				A0C8E2881D79851D004B91A3 /* Configuracion.m in Sources */,
 				A08750CD1D74E76100B1FA90 /* WebServices.m in Sources */,
 				A08750A81D74E5B600B1FA90 /* NSDictionary+ObjectMapper.m in Sources */,
 				A08750B81D74E5B600B1FA90 /* SBJsonStreamWriterState.m in Sources */,
+				A0C8E2A21D7A6AF3004B91A3 /* Intro.m in Sources */,
 				A08750D71D754E2B00B1FA90 /* OfertasCercanas.m in Sources */,
 				A0C8E25E1D7792E5004B91A3 /* ObjectOferta.m in Sources */,
 				A08750C31D74E62800B1FA90 /* Declarations.m in Sources */,
 				A08750AA1D74E5B600B1FA90 /* ManagedObjectInstanceProvider.m in Sources */,
 				A08750C21D74E62800B1FA90 /* OCMapperConfig.m in Sources */,
+				A0C8E2911D79FB5D004B91A3 /* NSString+ExtendedString.m in Sources */,
+				A0C8E28B1D79E5A5004B91A3 /* Login.m in Sources */,
 				A08750AD1D74E5B600B1FA90 /* InCodeMappingProvider.m in Sources */,
 				A08750B71D74E5B600B1FA90 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				A08750511D741B5E00B1FA90 /* main.m in Sources */,
+				A0C8E29F1D7A6A2B004B91A3 /* IntroPages.m in Sources */,
 				A0C8E2851D7976EC004B91A3 /* Cuenta.m in Sources */,
 				A08750F61D768B6E00B1FA90 /* cellOferta.m in Sources */,
 				A08750DD1D7567B500B1FA90 /* Menu.m in Sources */,
 				A08750BB1D74E5B600B1FA90 /* SBJsonWriter.m in Sources */,
 				A08750DA1D7551F000B1FA90 /* ReportarOferta.m in Sources */,
+				A0C8E29B1D7A4D51004B91A3 /* Acerca.m in Sources */,
 				A0C8E27E1D794C0F004B91A3 /* DetalleOferta.m in Sources */,
 				A08750AF1D74E5B600B1FA90 /* ObjectMappingInfo.m in Sources */,
 				A08750B41D74E5B600B1FA90 /* SBJsonStreamParserAdapter.m in Sources */,

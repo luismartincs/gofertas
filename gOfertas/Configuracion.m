@@ -98,6 +98,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [[NSUserDefaults standardUserDefaults] setObject:_favoritos forKey:@"favoritos"];
+    
+    NSLog(@"%@",_favoritos);
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{

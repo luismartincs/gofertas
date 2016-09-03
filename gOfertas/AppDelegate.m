@@ -8,8 +8,14 @@
 
 #import "AppDelegate.h"
 #import "OCMapperConfig.h"
-@import GoogleMaps;
+#import "SWRevealViewController.h"
+#import <Pushwoosh/PushNotificationManager.h>
 
+@import GoogleMaps;
+@import CoreLocation;
+@import SystemConfiguration;
+@import AVFoundation;
+@import ImageIO;
 
 @interface AppDelegate ()
 
@@ -22,9 +28,56 @@
     
     [GMSServices provideAPIKey:@"AIzaSyCjk6hmlwCgf5QZWVDdLzJzxiZZku_qci8"];
     [OCMapperConfig configure];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
+    //-----------PUSHWOOSH PART-----------
+    // set custom delegate for push handling, in our case - view controller
+    PushNotificationManager * pushManager = [PushNotificationManager pushManager];
+    pushManager.delegate = self;
+    
+    // handling push on app start
+    [[PushNotificationManager pushManager] handlePushReceived:launchOptions];
+    
+    // make sure we count app open in Pushwoosh stats
+    [[PushNotificationManager pushManager] sendAppOpen];
+    
+    // register for push notifications!
+    [[PushNotificationManager pushManager] registerForPushNotifications];
+
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"logged"]){
+    
+        UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        SWRevealViewController *main = [story instantiateViewControllerWithIdentifier:@"Reveal"];
+        
+        _window.rootViewController = main;
+        
+    }
+    
     return YES;
 }
+
+
+#pragma mark - Push
+
+// system push notification registration success callback, delegate to pushManager
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [[PushNotificationManager pushManager] handlePushRegistration:deviceToken];
+}
+
+// system push notification registration error callback, delegate to pushManager
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    [[PushNotificationManager pushManager] handlePushRegistrationFailure:error];
+}
+
+// system push notifications callback, delegate to pushManager
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [[PushNotificationManager pushManager] handlePushReceived:userInfo];
+}
+
+- (void) onPushAccepted:(PushNotificationManager *)pushManager withNotification:(NSDictionary *)pushNotification onStart:(BOOL)onStart {
+    NSLog(@"Push notification received");
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

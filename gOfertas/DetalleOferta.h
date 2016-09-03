@@ -24,5 +24,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *urlTxt;
 @property (strong, nonatomic) IBOutlet UITextView *descripcionTxt;
 @property (strong, nonatomic) IBOutlet UIView *rankContainer;
+@property (strong, nonatomic) IBOutlet UIImageView *imagen;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end

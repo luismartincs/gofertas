@@ -32,4 +32,24 @@
     
 }
 
++(void)showMessage:(NSString*)message andTitle:(NSString*)title inController:(UIViewController*)controller andHide:(BOOL)hide;{
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:title
+                                  message:message
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"Aceptar"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             [controller dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    
+    [alert addAction:ok];
+    
+    [controller presentViewController:alert animated:YES completion:nil];
+}
+
 @end

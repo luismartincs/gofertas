@@ -74,24 +74,74 @@
     [self.view addSubview:radioLabel];
     
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(queueLoadData)
+                                                 name:@"REFRESH_HOME"
+                                               object:nil];
+    
+    
     [self startStandardUpdates];
     
 
 }
 
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"tutorial"]){
+        
+        UIViewController *tuto = [self.storyboard instantiateViewControllerWithIdentifier:@"Tutorial"];
+    
+        [self presentViewController:tuto animated:YES completion:nil];
+    }
+}
+
 #pragma mark - Web Services
 
 
+- (void)mapView:(GMSMapView *)mapView didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
+    NSLog(@"You tapped at %f,%f", coordinate.latitude, coordinate.longitude);
+    
+    
+    _marker.position = coordinate;
+    _marker.title = @"Reportar oferta";
+    _marker.snippet = @"Presiona para reportar";
+    _marker.map = _mapView;
+    _mapView.selectedMarker = _marker;
+    
+    
+}
+
 -(void)mapView:(GMSMapView *)mapView didTapInfoWindowOfMarker:(GMSMarker *)marker{
     
-    UIStoryboard *story = [self storyboard];
-    DetalleOferta *destination = [story instantiateViewControllerWithIdentifier:@"DetalleOferta"];
+    if([marker isEqual:_marker]){
+        
+        _marker.map = nil;
+        
+        ReportarOferta *destination =  (ReportarOferta*)[self.storyboard instantiateViewControllerWithIdentifier:@"ReportarOferta"];
+        destination.latitude = [NSString stringWithFormat:@"%.6f",_marker.position.latitude];
+        destination.longitude = [NSString stringWithFormat:@"%.6f",_marker.position.longitude];
+        
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:destination];
+        
+        nav.navigationBar.barTintColor = [UIColor colorWithRed:1.0 green:149.0/255.0 blue:0 alpha:1];
+        
+        nav.navigationBar.tintColor = [UIColor whiteColor];
+        
+        nav.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+        
+        [self presentViewController:nav animated:YES completion:nil];
+    }else{
     
-    destination.ofertaid = [[_markersOffers allKeysForObject:marker][0] integerValue];
-    
-    print(NSLog(@"%i",[[_markersOffers allKeysForObject:marker][0] integerValue]))
-    
-    [self.navigationController pushViewController:destination animated:YES];
+        UIStoryboard *story = [self storyboard];
+        DetalleOferta *destination = [story instantiateViewControllerWithIdentifier:@"DetalleOferta"];
+        
+        destination.ofertaid = [[_markersOffers allKeysForObject:marker][0] integerValue];
+        
+        print(NSLog(@"%i",[[_markersOffers allKeysForObject:marker][0] integerValue]))
+        
+        [self.navigationController pushViewController:destination animated:YES];
+    }
 }
 
 -(void)queueLoadData{
@@ -237,8 +287,9 @@
         
         GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:location.coordinate.latitude
                                                                 longitude:location.coordinate.longitude
-                                                                    zoom:16];
+                                                                    zoom:15];
         _mapView.camera = camera;
+        _marker = [GMSMarker markerWithPosition:location.coordinate];
         
         [self queueLoadData];
         
